@@ -4,38 +4,76 @@
  */
 
 import java.io.*;
-import java.util.TreeSet;
+import java.nio.Buffer;
+import java.util.*;
 
+import static java.lang.Integer.parseInt;
 //  Create an application that tracks
 //  the number of CDs that two people have in common
 
 class CDOwner {
     //  Owner should have a name
     //  Owner should have a TreeMap or a TreeSet that contains all cds they own
-    private String name;
-    private TreeSet<Integer> cds;
+    public String name;
+    public TreeSet<Integer> cds;
 
     //  Include a loaded constructor and getters
     public CDOwner(String name) {
         this.name = name;
+        this.cds = new TreeSet<>();
     }
 }
 public class CD {
-    //  Create a buffered reader before entering the while loop to read in N and M
+    public static void main(String[] args) throws IOException {
 
-    //  Once we have N and M, perform the rest of the program while both are not 0
+        //  Create a buffered reader before entering the while loop to read in N and M
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    //      for N lines read each next line and add it to Jack's TreeSet
-    //          Since it is a TreeSet duplicates are ignored
-    //      for M lines read each next line and add it to Jill's TreeSet
+        StringTokenizer tokenizer = new StringTokenizer(br.readLine());
 
-    //      Create a var Integer common at 0, then go through all items in Jack's TreeSet
-    //      check if Jill's TreeSet contains a node in the TreeSet belonging to Jack
+        Integer N = parseInt((String) tokenizer.nextToken());
+        Integer M = parseInt((String) tokenizer.nextToken());
 
-    //          if so, iterate common by one
+        //  Make sure neither N nor M are larger than 1000000
+        if ((N > 1000000) || (M > 1000000)) {
+            return;
+        }
 
-    //      print out common
+        CDOwner jack = new CDOwner("Jack");
+        CDOwner jill = new CDOwner("Jill");
 
-    //      read N and M again in the same way as before entering the while loop
+        //  Once we have N and M, perform the rest of the program while both are not 0
+        while (N > 0 || M > 0) {
 
+            //      for N lines read each next line and add it to Jack's TreeSet
+            for (int i = 0; i < N; i++) {
+                jack.cds.add(parseInt(br.readLine()));
+            }
+
+            //      for M lines read each next line and add it to Jill's TreeSet
+            for (int i = 0; i < M; i++) {
+                jill.cds.add(parseInt(br.readLine()));
+            }
+
+            //      Create a var Integer common at 0, then go through all items in Jack's TreeSet
+            int common = 0;
+
+            //      check if Jill's TreeSet contains a node in the TreeSet belonging to Jack
+            while (!jill.cds.isEmpty()) {
+                if (jack.cds.contains(jill.cds.pollFirst())) {
+                    // In the case of both treesets containing a cd number,
+                    // iterate common by one
+                    common++;
+                }
+            }
+
+            //      print out common
+            System.out.println(common);
+
+            //      Lastly reread N and M with the buffered reader
+            tokenizer = new StringTokenizer(br.readLine());
+            N = parseInt((String) tokenizer.nextToken());
+            M = parseInt((String) tokenizer.nextToken());
+        }
+    }
 }
