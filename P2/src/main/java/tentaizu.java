@@ -3,7 +3,6 @@
  *  Copyright 2022 Jeanne Claire Moore
  */
 
-import java.io.*;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -59,19 +58,16 @@ public class tentaizu {
     }
 
     private static boolean tentaizuHelper(char[][] starBoard, int[][] numBoard, int numStars, int x, int y, int loop){
+        //  Check if y is oob
         if (y > 7) {
             return false;
         }
 
         //  First check if x and y location points to a number. If so, move to the next recursion
         if (numBoard[y][x] >= 0){
-            if (x == 7) {
-                x = 0;
-                y++;
-            }
 
             //  Return the result of the following board permutations past this spot
-            return tentaizuHelper(starBoard, numBoard, numStars, x+1, y, loop);
+            return tentaizuHelper(starBoard, numBoard, numStars, (x%7)+1,y+(x/7), loop);
         }
 
         //  Check around current spot for any zeros. If a zero is found, that means no stars may be placed there.
@@ -79,6 +75,8 @@ public class tentaizu {
         boolean numFlag = false;
         boolean zeroFlag = false;
 
+        //  Set numFlag true if a number is near this spot
+        //  Set zeroFlag true if a zero is near this spot
         for (int i = 0; i < 8; i++){
             if (numBoard[y+dy[i]][x+dx[i]] > -1) {
                 if (numBoard[y+dy[i]][x+dx[i]] == 0) {
@@ -105,8 +103,9 @@ public class tentaizu {
         //  Check to see if the star placed was the last one: only a finished board may have ten stars
         //  And all vacancies near numbers must also be filled
         if ((numStars == 10)) {
+            tentaizuPrinter(starBoard, loop);
             if (numsLeft(numBoard)) {
-                System.out.print("x");
+                System.out.print("\nX\n\n");
                 return false;
             }
 
@@ -122,18 +121,27 @@ public class tentaizu {
         //  and continue recursion
 
         starBoard[y-1][x-1] = '.';
+        numStars --;
 
-        if (x == 7) {
-            x = 0;
-            y++;
+        //  Return number board to state prior to changes
+        for (int i = 0; i < 8; i++) {
+            if (numBoard[y+dy[i]][x+dx[i]] >= 0) {
+                numBoard[y + dy[i]][x + dx[i]]++;
+            }
         }
 
-        return (tentaizuHelper(starBoard,numBoard,numStars-1,(x%7)+1,y+(x/7),loop));
+        //  Make next recursion after leaving current spot blank
+        return tentaizuHelper(starBoard, numBoard, numStars, (x % 7) + 1, y + (x / 7), loop);
     }
+
+
+
+
+
 
     private static void tentaizuPrinter(char[][] starBoard, int loop) {
         //  print out all characters on the board
-        System.out.println("Tentaizu Board #1:");
+        System.out.printf("Tentaizu Board #%d:\n",loop);
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++){
                 System.out.print(starBoard[i][j]);
