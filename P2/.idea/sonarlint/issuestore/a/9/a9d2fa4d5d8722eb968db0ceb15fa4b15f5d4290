@@ -1,0 +1,17 @@
+
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(Çµí‘
+S	java:S1067"9Replace this use of System.out or System.err by a logger.(ü¢½Öþÿÿÿÿ
+h
+java:S3776>"RRefactor this method to reduce its Cognitive Complexity from 62 to the 15 allowed.(´‘ÙÅ
+m
+java:S3457¤"Q%n should be used in place of \n to produce the platform-specific line separator.(‹‘î’ûÿÿÿÿ
+T	java:S106¤"9Replace this use of System.out or System.err by a logger.(‹‘î’ûÿÿÿÿ
+T	java:S106§"9Replace this use of System.out or System.err by a logger.(—¾àêùÿÿÿÿ
+N	java:S106©"9Replace this use of System.out or System.err by a logger.(°•Þ
+N	java:S106¬"9Replace this use of System.out or System.err by a logger.(°•Þ
+i
+java:S3776±"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(ÆÐ‚ 
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ÇùðÉøÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
