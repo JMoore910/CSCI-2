@@ -3,7 +3,10 @@
  *  Copyright 2022 Jeanne Claire Moore
  */
 
+import java.io.*;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 //  Create an application:
 //  Application reads input from user for a number of dances that take place in a dance recital, then
@@ -22,14 +25,47 @@ import java.util.*;
 
 public class DanceRecital {
 
-    //  Main method
-    public static void main(String[] args) {
+    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static int baseline = 0;
 
+    //  Main method
+    public static void main(String[] args) throws IOException {
+        String firstInput = br.readLine();
+        int size = parseInt(firstInput);
+
+        Integer[] used = new Integer[size];
+        ArrayList<Integer> perm = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            //  Init used array to -1
+            used[i] = -1;
+        }
+
+
+        //  Get dances from input method
+        String[] dances = readInput(size);
+
+        //  Now that we have the input, we can create a baseline to check other permutations by
+        for (int i = 1; i < size; i++) {
+            //  Starting from the second element and moving through get int val of all dance compares
+            baseline += danceCompare(dances[i-1], dances[i]);
+        }
+
+
+        //  Start the recursive call
+        if (!danceRecitals(perm, used, dances, 0, 0)) {
+            System.out.println("Some error has occurred");
+        }
     }
 
     //  dance recitals permutation method
     //  Recursive!!!
-    public boolean danceRecitals(ArrayList<Integer> perm, Integer[] used, int k, int quickChanges) {
+    public static boolean danceRecitals(ArrayList<Integer> perm, Integer[] used, String[] dances, int k, int quickChanges) {
+        //  Use backtracking if we find a perm begins passing the baseline
+
+
+        //  DO REST TOMORROW
+        //  for (int i = 0; i < dances)
 
 
         return false;
@@ -37,14 +73,30 @@ public class DanceRecital {
 
 
     //  Read method
-    public static String[] readInput(int K) {
+    public static String[] readInput(int size) throws IOException {
+        String[] dances = new String[size];
 
-        return new String[K];
+        for (int i = 0; i < size; i++) {
+            //  Read all dances in as input from buffered reader
+            dances[i] = br.readLine();
+        }
+
+        //  Return the dances to the user
+        return dances;
     }
+
 
     //  dance comparing method
     public static int danceCompare(String last, String cur) {
+        int quickChanges = 0;
+        for (int i = 0; i < last.length(); i++) {
+            //  a single char is not acceptable for the contains method, add blank char to make it a char sequence
+            if (cur.contains(last.charAt(i)+"")) {
+                //  If the Dancer in the last dance is within the current dance, a quick change was required
+                quickChanges++;
+            }
+        }
 
-        return 0;
+        return quickChanges;
     }
 }
