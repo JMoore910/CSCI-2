@@ -11,12 +11,43 @@
 //  network is printed, then a series of cuts are made between connections. The
 //  program must make these cuts, and after each must print the new connectivity.
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 public class destroy {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //  First and foremost, retrieve input from user
-        //
+        //  Use a buffered reader to take in n m and d
+        //  where n is the number of computers, m is the number of unions,
+        //  and d is the number of disconnections to make
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+
+        int n;
+        int m;
+        int d;
+
+        String input = br.readLine();
+        n = parseInt(Arrays.asList(input.split(" ")).get(0));
+        m = parseInt(Arrays.asList(input.split(" ")).get(1));
+        d = parseInt(Arrays.asList(input.split(" ")).get(2));
+
+        //  Create a djset of size n for enemy computers
+        djset enemyComputers = new djset(n);
+
+        //  Then put all unions into an array list
+        ArrayList<String> unions = new ArrayList<>();
+        for (int i = 0; i < n; i ++){
+
+
+        }
+
+
 
     }
 }
@@ -38,8 +69,13 @@ class Network {
         connectivity ++;
     }
 
-    public void netContains(int computer) {
-
+    public boolean netContains(int computer) {
+        for (int i = 0; i < computers.size(); i++) {
+            if (computer == computers.get(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

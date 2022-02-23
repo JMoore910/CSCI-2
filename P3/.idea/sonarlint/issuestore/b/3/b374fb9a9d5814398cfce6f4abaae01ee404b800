@@ -1,19 +1,34 @@
 
-—
-java:S1186)"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ê™æ
+U
+java:S1854,":Remove this useless assignment to local variable "unions".(÷ò©®ûÿÿÿÿ
+d
+java:S1854)"BRemove this useless assignment to local variable "enemyComputers".(±²…øÿÿÿÿÿ8‘×ó·ò/
+K
+java:S1854&"5Remove this useless assignment to local variable "d".(Ò´»Ù
+K
+java:S1854%"5Remove this useless assignment to local variable "m".(õöŠù
+<
+java:S1481 "&Remove this unused "m" local variable.(Â’â¿
+<
+java:S1481!"&Remove this unused "d" local variable.(·ÿ¾¾
+U
+java:S1481)"3Remove this unused "enemyComputers" local variable.(±²…øÿÿÿÿÿ8–×ó·ò/
+F
+java:S1481,"+Remove this unused "unions" local variable.(÷ò©®ûÿÿÿÿ
+>	java:S108-")Either remove or fill this block of code.(»³½‹
 >
-java:S1172"(Remove this unused method parameter "k".(×›é
+java:S1172>"(Remove this unused method parameter "k".(×›é
 `
-java:S11246"EReorder the modifiers to comply with the Java Language Specification.(í¦Î—ÿÿÿÿÿ
+java:S1124Z"EReorder the modifiers to comply with the Java Language Specification.(í¦Î—ÿÿÿÿÿ
 
-java:S1319"iThe type of "computers" should be an interface such as "List" rather than the implementation "ArrayList".(Ï“¿›
+java:S1319:"iThe type of "computers" should be an interface such as "List" rather than the implementation "ArrayList".(Ï“¿›
 k
-java:S1104"UMake computers a static final constant or non-public and provide accessors if needed.(Ï“¿›
+java:S1104:"UMake computers a static final constant or non-public and provide accessors if needed.(Ï“¿›
 n
-java:S1104"XMake connectivity a static final constant or non-public and provide accessors if needed.(òÉè
+java:S1104;"XMake connectivity a static final constant or non-public and provide accessors if needed.(òÉè
 m
-java:S11048"RMake parent a static final constant or non-public and provide accessors if needed.(‹²²‘ùÿÿÿÿ
-b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(µíÙƒ
-g	java:S1014"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(õ¯Ìşÿÿÿÿ
+java:S1104\"RMake parent a static final constant or non-public and provide accessors if needed.(‹²²‘ùÿÿÿÿ
+b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(µíÙƒ
+g	java:S101X"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(õ¯Ìşÿÿÿÿ
 0
 java:S1220""Move this file to a named package.
