@@ -1,0 +1,19 @@
+
+—
+java:S1186)"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ê™æ
+>
+java:S1172"(Remove this unused method parameter "k".(×›é
+`
+java:S11246"EReorder the modifiers to comply with the Java Language Specification.(í¦Î—ÿÿÿÿÿ
+
+java:S1319"iThe type of "computers" should be an interface such as "List" rather than the implementation "ArrayList".(Ï“¿›
+k
+java:S1104"UMake computers a static final constant or non-public and provide accessors if needed.(Ï“¿›
+n
+java:S1104"XMake connectivity a static final constant or non-public and provide accessors if needed.(òÉè
+m
+java:S11048"RMake parent a static final constant or non-public and provide accessors if needed.(‹²²‘ùÿÿÿÿ
+b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(µíÙƒ
+g	java:S1014"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(õ¯Ìşÿÿÿÿ
+0
+java:S1220""Move this file to a named package.

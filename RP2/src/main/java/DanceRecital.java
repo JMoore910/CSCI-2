@@ -33,12 +33,12 @@ public class DanceRecital {
         String firstInput = br.readLine();
         int size = parseInt(firstInput);
 
-        Integer[] used = new Integer[size];
-        ArrayList<Integer> perm = new ArrayList<>();
+        boolean[] used = new boolean[size];
+        ArrayList<String> perm = new ArrayList<>();
 
         for (int i = 0; i < size; i++) {
             //  Init used array to -1
-            used[i] = -1;
+            used[i] = false;
         }
 
 
@@ -53,22 +53,63 @@ public class DanceRecital {
 
 
         //  Start the recursive call
-        if (!danceRecitals(perm, used, dances, 0, 0)) {
-            System.out.println("Some error has occurred");
-        }
+        danceRecitals(perm, used, dances, 0, 0, size);
+        //  baseline global changed to be the lowest possible num of quick changes, so print it
+        System.out.println(baseline);
     }
 
     //  dance recitals permutation method
     //  Recursive!!!
-    public static boolean danceRecitals(ArrayList<Integer> perm, Integer[] used, String[] dances, int k, int quickChanges) {
-        //  Use backtracking if we find a perm begins passing the baseline
+    public static void danceRecitals(ArrayList<String> perm, boolean[] used, String[] dances, int k, int quickChanges, int size) {
+        //  Check if k is equal to the size
+        if (k == size) {
+            //  Check quick changes. If it is less than baseline set it to be baseline
+            if (quickChanges < baseline) {
+                baseline = quickChanges;
+                return;
+            }
+        }
 
+        if (quickChanges >= baseline) {
+            //  If baseline is passed, do not go further with permutation
+            return;
+        }
 
-        //  DO REST TOMORROW
-        //  for (int i = 0; i < dances)
+        int changes;
+        //  Create permutations but use backtracking if quickChanges becomes larger than baseline
+        for (int i = 0; i < size; i++) {
+            //  Check if dance i is already being used
+            if (used[i]) {
+                continue;
+            }
 
+            //  if k == 0 we are at start so go ahead and add then continue
+            if (k == 0) {
+                used[i] = true;
+                perm.add(dances[i]);
+                //  No need to check for changes since there is no previous element just recurse forwards
+                danceRecitals(perm, used, dances, k+1, quickChanges, size);
 
-        return false;
+                //  After recursion remove it from the array
+                perm.remove(dances[i]);
+                used[i] = false;
+                continue;
+            }
+
+            //  If not used, go ahead and add the item and recurse
+            used[i] = true;
+            perm.add(dances[i]);
+            changes = danceCompare(perm.get(k-1), perm.get(k));
+
+            //  Use new changes to recurse further
+            danceRecitals(perm, used, dances, k+1, quickChanges + changes, size);
+
+            //  After recursion remove from array
+            perm.remove(dances[i]);
+            used[i] = false;
+        }
+
+        return;
     }
 
 
