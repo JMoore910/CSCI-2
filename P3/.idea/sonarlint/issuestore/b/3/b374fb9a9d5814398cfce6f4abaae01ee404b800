@@ -1,15 +1,12 @@
 
-Z
-java:S1854L"?Remove this useless assignment to local variable "connections".(’ë¸Òıÿÿÿÿ
-K
-java:S1481L"0Remove this unused "connections" local variable.(’ë¸Òıÿÿÿÿ
-W
-java:S1172P"5Remove these unused method parameters "dj", "m", "d".(œî±øÿÿÿÿ8×Ç÷Ğò/
-g
-java:S1124a"EReorder the modifiers to comply with the Java Language Specification.(í¦Î—ÿÿÿÿÿ8ÙÇ÷Ğò/
-t
-java:S1104c"RMake parent a static final constant or non-public and provide accessors if needed.(‹²²‘ùÿÿÿÿ8ÜÇ÷Ğò/
+S	java:S106n"9Replace this use of System.out or System.err by a logger.(…”Æ‰ÿÿÿÿÿ
+C
+java:S1172r"(Remove this unused method parameter "k".(–”Ÿ¯üÿÿÿÿ
+a
+java:S1124‘"EReorder the modifiers to comply with the Java Language Specification.(í¦Î—ÿÿÿÿÿ
+n
+java:S1104“"RMake parent a static final constant or non-public and provide accessors if needed.(‹²²‘ùÿÿÿÿ
 b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(µíÙƒ
-n	java:S101_"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(õ¯Ìşÿÿÿÿ8ÜÇ÷Ğò/
+h	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(õ¯Ìşÿÿÿÿ
 0
 java:S1220""Move this file to a named package.

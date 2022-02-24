@@ -63,24 +63,72 @@ public class destroy {
             unions.add(temp.get(i));
         }
 
-        int n1;
-        int n2;
+
         //  Move through the unions array and perform each union
-        for (int i = 0; i < (n - d); i++) {
-            n1 = parseInt(Arrays.asList(unions.get(i).split(" ")).get(0))-1;
-            n2 = parseInt(Arrays.asList(unions.get(i).split(" ")).get(1))-1;
-            enemyComputers.union(n1,n2);
+        for (int i = 0; i < m; i++) {
+            enemyComputers = unionInput(enemyComputers, i,
+                    Arrays.asList(unions.get(i).split(" ")).get(0),
+                    Arrays.asList(unions.get(i).split(" ")).get(1));
         }
 
         //  Create an array that will hold all connectivities and an arraylist to hold all roots
         int[] connections = new int[d+1];
+        for (int i = 0; i < d+1; i++) {
+            connections[i] = 0;
+        }
 
+        connections = findConnectivity(enemyComputers, n, connections);
+
+        int[] res = new int[d+1];
+        //  Move through connections and sum the square of all nums and add to sum
+        int sum = 0;
+        for (int j = 0; j < n; j++) {
+            sum += (connections[j] * connections[j]);
+        }
+        res[0] = sum;
+
+        //  After initial connectivity is found, move through disconnections and union each element
+        for (int i = 0; i < d; i++) {
+            sum = 0;
+
+            enemyComputers = unionInput(enemyComputers, i,
+                    Arrays.asList(disconnects.get(i).split(" ")).get(0),
+                    Arrays.asList(disconnects.get(i).split(" ")).get(1));
+
+
+            connections = findConnectivity(enemyComputers, n, connections);
+
+            //  Now do the operation to find connectivity
+            for (int j = 0; j < n; j++) {
+                sum += (connections[j] * connections[j]);
+            }
+            res[i+1] = sum;
+        }
+
+        //  Lastly, move backwards through the result array and print the connectivities.
+        for (int i = d; i >= 0; i--){
+            System.out.println(res[i]);
+        }
     }
 
-    public static int findConnectivity(djset dj, int n, int m, int d) {
+    public static djset unionInput(djset dj, int k, String a, String b){
+        int n1;
+        int n2;
+
+        //  Turn strings into integers for union
+        n1 = parseInt(a)-1;
+        n2 = parseInt(b)-1;
+
+        //  Run union op and return djset
+        dj.union(n1,n2);
+        return dj;
+    }
+
+    public static int[] findConnectivity(djset dj, int n, int[] connections) {
         for (int i = 0; i < n; i++){
-            // Look in notebook for this
+            connections[dj.parent[i]]++;
         }
+        return connections;
     }
 
 }
