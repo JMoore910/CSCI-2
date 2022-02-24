@@ -40,44 +40,51 @@ public class destroy {
         //  Create a djset of size n for enemy computers
         djset enemyComputers = new djset(n);
 
-        //  Then put all unions into an array list
+        //  Then put all unions into a temp array list
+        ArrayList<String> temp = new ArrayList<>();
+        for (int i = 0; i < m; i ++){
+            temp.add(br.readLine());
+        }
+
+        //  Lastly, read in which disconnects to make, and move them to the disconnects array list
+        ArrayList<Integer> inArray = new ArrayList<>();
+        ArrayList<String> disconnects = new ArrayList<>();
+        for (int i = 0; i < d; i++){
+            inArray.add(parseInt(br.readLine()));
+            disconnects.add(temp.get(inArray.get(i)));
+        }
+
+        //  Push all items in unions array list to a new array
         ArrayList<String> unions = new ArrayList<>();
-        for (int i = 0; i < n; i ++){
-
-
-        }
-
-
-
-    }
-}
-
-//  A network will have all computers connected. Allows to return num of computers as connectivity
-class Network {
-    //  declare vars
-    public ArrayList<Integer> computers;
-    public int connectivity;
-
-    //  Make a constructor
-    public Network(int k){
-        computers = new ArrayList<>();
-        connectivity = 0;
-    }
-
-    public void addComputer(int computer){
-        computers.add(computer);
-        connectivity ++;
-    }
-
-    public boolean netContains(int computer) {
-        for (int i = 0; i < computers.size(); i++) {
-            if (computer == computers.get(i)) {
-                return true;
+        for (int i = 0; i < m; i++){
+            if (inArray.contains(i)) {
+                continue;
             }
+            unions.add(temp.get(i));
         }
-        return false;
+
+        int n1;
+        int n2;
+        //  Move through the unions array and perform each union
+        for (int i = 0; i < (n - d); i++) {
+            n1 = parseInt(Arrays.asList(unions.get(i).split(" ")).get(0))-1;
+            n2 = parseInt(Arrays.asList(unions.get(i).split(" ")).get(1))-1;
+            enemyComputers.union(n1,n2);
+        }
+
+        //  Create an array that will hold all connectivities and an arraylist to hold all roots
+        int[] connections = new int[d+1];
+
     }
+
+    public static int findConnectivity(djset dj, int n, int m, int d) {
+        for (int i = 0; i < n; i++){
+            // Look in notebook for this
+        }
+    }
+
 }
+
 
 //  THE FOLLOWING WAS WRITTEN BY ARUP GUHA for the UCF 2022 Spring Semester Computer Science 2 course
 
