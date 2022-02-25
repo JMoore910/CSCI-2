@@ -21,6 +21,7 @@ public class tentaizu {
         Scanner input = new Scanner(System.in);
         int numCases = input.nextInt();
         for (int loop = 1; loop <= numCases; loop++) {
+            System.out.println("Start " + System.currentTimeMillis());
             //  Declare tentaizu boards
             char[][] starBoard = new char[7][7];
             int[][] numBoard = new int[9][9];
@@ -51,10 +52,11 @@ public class tentaizu {
                 }
             }
 
+
             if (!tentaizuHelper(starBoard, numBoard, 0, 0, loop)) {
                 System.out.println("Board #" + loop + " Was not solved \n");
             }
-
+            System.out.println("end " + System.currentTimeMillis());
         }
     }
 
@@ -63,7 +65,6 @@ public class tentaizu {
         //  k represents the spot in the 2D array we are looking at
 
         if (numStars == 10) {
-
             if (!checkStars(starBoard)) {
                 return false;
             }
@@ -71,10 +72,22 @@ public class tentaizu {
             return true;
         }
 
+
+
+
         for (int i = k; i < 49; i++) {
             //  Set location vars
             int x = (i % 7) + 1;
             int y = (i / 7) + 1;
+
+
+            if ((x == 1 || x == 2) && (y > 2)) {
+                if (numBoard[y-2][7-1] >= 0) {
+                }
+            } else {
+
+            }
+
 
             //  Check if a zero is present around this number
             //  Also check if this spot is valid for a star
@@ -83,7 +96,7 @@ public class tentaizu {
             }
 
             //  If the current number is a zero, each spot around it must be labeled 9 aka off limits for stars added
-            if (numBoard[y][x] == 0 && starBoard[y - 1][x - 1] == '0') {
+            if (starBoard[y - 1][x - 1] == '0') {
                 for (int j = 0; j < 8; j++) {
                     if (numBoard[y + dy[j]][x + dx[j]] == -1 || numBoard[y + dy[j]][x + dx[j]] > 10) {
                         //  place a 9 for off limits
@@ -108,7 +121,7 @@ public class tentaizu {
                     //  If a num is going to be subbed to zero, make the area around it off limits
                     if (temp[j] == 1) {
                         for (int l = 0; l < 8; l++) {
-                            if (numBoard[y + dy[j] + dy[l]][x + dx[j] + dy[l]] > 10) {
+                            if ((numBoard[y + dy[j] + dy[l]][x + dx[j] + dy[l]] > 10)) {
                                 numBoard[y + dy[j] + dy[l]][x + dx[j] + dy[l]] += 12;
                             }
                         }
