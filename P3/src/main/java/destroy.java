@@ -19,6 +19,8 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 
 public class destroy {
+    //  Make a global array tracking connections
+
     public static void main(String[] args) throws IOException {
         //  First and foremost, retrieve input from user
         //  Use a buffered reader to take in n m and d
@@ -50,7 +52,7 @@ public class destroy {
         ArrayList<Integer> inArray = new ArrayList<>();
         ArrayList<String> disconnects = new ArrayList<>();
         for (int i = 0; i < d; i++){
-            inArray.add(parseInt(br.readLine()));
+            inArray.add(parseInt(br.readLine())-1);
             disconnects.add(temp.get(inArray.get(i)));
         }
 
@@ -65,16 +67,16 @@ public class destroy {
 
 
         //  Move through the unions array and perform each union
-        for (int i = 0; i < m; i++) {
-            enemyComputers = unionInput(enemyComputers, i,
+        for (int i = 0; i < m-d; i++) {
+            enemyComputers = unionInput(enemyComputers, n,
                     Arrays.asList(unions.get(i).split(" ")).get(0),
                     Arrays.asList(unions.get(i).split(" ")).get(1));
         }
 
         //  Create an array that will hold all connectivities and an arraylist to hold all roots
-        int[] connections = new int[d+1];
-        for (int i = 0; i < d+1; i++) {
-            connections[i] = 0;
+        int[] connections = new int[n];
+        for (int i = 0; i < n; i++) {
+            connections[i] = 1;
         }
 
         connections = findConnectivity(enemyComputers, n, connections);
@@ -85,33 +87,37 @@ public class destroy {
         for (int j = 0; j < n; j++) {
             sum += (connections[j] * connections[j]);
         }
-        res[0] = sum;
+        res[d] = sum;
 
         //  After initial connectivity is found, move through disconnections and union each element
-        for (int i = 0; i < d; i++) {
+        for (int i = d-1; i >= 0; i--) {
             sum = 0;
 
-            enemyComputers = unionInput(enemyComputers, i,
+            enemyComputers = unionInput(enemyComputers, n,
                     Arrays.asList(disconnects.get(i).split(" ")).get(0),
                     Arrays.asList(disconnects.get(i).split(" ")).get(1));
 
+            for (int j = 0; j < n; j++) {
+                connections[j] = 1;
+            }
 
             connections = findConnectivity(enemyComputers, n, connections);
+
 
             //  Now do the operation to find connectivity
             for (int j = 0; j < n; j++) {
                 sum += (connections[j] * connections[j]);
             }
-            res[i+1] = sum;
+            res[i] = sum;
         }
 
         //  Lastly, move backwards through the result array and print the connectivities.
-        for (int i = d; i >= 0; i--){
+        for (int i = 0; i < d+1; i++){
             System.out.println(res[i]);
         }
     }
 
-    public static djset unionInput(djset dj, int k, String a, String b){
+    public static djset unionInput(djset dj, int n, String a, String b){
         int n1;
         int n2;
 
@@ -119,15 +125,16 @@ public class destroy {
         n1 = parseInt(a)-1;
         n2 = parseInt(b)-1;
 
-        //  Run union op and return djset
-        dj.union(n1,n2);
+        dj.union(n1,n2,n);
         return dj;
     }
 
     public static int[] findConnectivity(djset dj, int n, int[] connections) {
         for (int i = 0; i < n; i++){
             connections[dj.parent[i]]++;
+            connections[i]--;
         }
+
         return connections;
     }
 
@@ -166,7 +173,7 @@ class djset {
         return res;
     }
 
-    public boolean union(int v1, int v2) {
+    public boolean union(int v1, int v2, int n) {
 
         // Find respective roots.
         int rootv1 = find(v1);
@@ -176,6 +183,11 @@ class djset {
         if (rootv1 == rootv2) return false;
 
         // Attach tree of v2 to tree of v1.
+        for (int i = 0; i < n; i++) {
+            if ((parent[i] == rootv2) && i != rootv2) {
+                parent[i] = rootv1;
+            }
+        }
         parent[rootv2] = rootv1;
         return true;
     }
