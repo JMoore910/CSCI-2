@@ -156,7 +156,6 @@ public class tentaizu {
             }
         }
 
-
         return false;
     }
 

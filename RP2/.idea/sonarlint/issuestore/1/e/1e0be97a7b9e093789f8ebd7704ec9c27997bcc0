@@ -1,0 +1,19 @@
+
+N	java:S106:"9Replace this use of System.out or System.err by a logger.(ÆŒ·¡
+1
+java:S3626p"Remove this redundant jump.(ûÁİ…
+n	java:S135P"YReduce the total number of break and continue statements in this loop to use at most one.(ÎÂ²¸
+E
+java:S1066C"/Merge this if statement with the enclosing one.(œ’İô
+†
+java:S1319?"dThe type of "perm" should be an interface such as "List" rather than the implementation "ArrayList".(ö†ğùÿÿÿÿ8§•é€ğ/
+c
+java:S1104"NMake br a static final constant or non-public and provide accessors if needed.(Î¹í*
+o
+java:S1104"TMake baseline a static final constant or non-public and provide accessors if needed.(×«øğıÿÿÿÿ
+=
+java:S1444"(Make this "public static br" field final(Î¹í*
+I
+java:S1444".Make this "public static baseline" field final(×«øğıÿÿÿÿ
+0
+java:S1220""Move this file to a named package.

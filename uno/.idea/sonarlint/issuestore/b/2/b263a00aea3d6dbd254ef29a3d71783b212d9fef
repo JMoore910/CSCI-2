@@ -1,0 +1,38 @@
+
+N	java:S106"9Replace this use of System.out or System.err by a logger.(îÏÑÒ
+N	java:S106#"9Replace this use of System.out or System.err by a logger.(£Šô
+S	java:S106'"9Replace this use of System.out or System.err by a logger.(¾©¥Çÿÿÿÿÿ
+N	java:S106-"9Replace this use of System.out or System.err by a logger.(îÏÑÒ
+S	java:S106:"9Replace this use of System.out or System.err by a logger.(Àòıÿÿÿÿ
+S	java:S106;"9Replace this use of System.out or System.err by a logger.(İ–Î¤üÿÿÿÿ
+B
+java:S1481>",Remove this unused "victory" local variable.(åîı
+S	java:S106B"9Replace this use of System.out or System.err by a logger.(İ–Î¤üÿÿÿÿ
+9
+java:S2119n"Save and re-use this "Random".(šŸ«íøÿÿÿÿ
+z
+java:S1319\"dThe type of "deck" should be an interface such as "List" rather than the implementation "ArrayList".(Íûå¼
+‡
+java:S1319"kThe type of "cardsInHand" should be an interface such as "List" rather than the implementation "ArrayList".(œÆ ùÿÿÿÿ
+g
+java:S1104"QMake input a static final constant or non-public and provide accessors if needed.(ÒÔä¸
+j
+java:S1104"OMake run a static final constant or non-public and provide accessors if needed.(¬Òê°úÿÿÿÿ
+f
+java:S1104\"PMake deck a static final constant or non-public and provide accessors if needed.(Íûå¼
+j
+java:S1104€"NMake id a static final constant or non-public and provide accessors if needed.(ÍéÌ‘øÿÿÿÿ
+r
+java:S1104"VMake playerHand a static final constant or non-public and provide accessors if needed.(‘’Öñÿÿÿÿÿ
+p
+java:S1104Œ"TMake handSize a static final constant or non-public and provide accessors if needed.(³¹Ş—üÿÿÿÿ
+s
+java:S1104"WMake cardsInHand a static final constant or non-public and provide accessors if needed.(œÆ ùÿÿÿÿ
+A
+java:S1444"+Make this "public static input" field final(ÒÔä¸
+D
+java:S1444")Make this "public static run" field final(¬Òê°úÿÿÿÿ
+)
+java:S1700\"Rename field "deck"(Íûå¼
+0
+java:S1220""Move this file to a named package.
