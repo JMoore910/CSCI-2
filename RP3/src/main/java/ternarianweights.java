@@ -1,12 +1,19 @@
 /*
- *  COP 3503 Spring 2022 Programming Assignment P2: Tentaizu
+ *  COP 3503 Spring 2022 Programming Assignment RP3: ternarian weights
  *  Copyright 2022 Jeanne Claire Moore
  */
 
+//  To find the solution to the weights problem:
+//  at the start the target is added from input as a target. That target becomes the balance of the
+//  plates at the start, always being negative. When looping, if the balance is negative, add to the
+//  right side, otherwise if it's positive add to the left.
 
-//  Method needs to be void/boolean recursive, should move through passing two arrays that get bigger as it is recursed through.
-//  Not a backtracking program
-//  Error checking: Check if input num is negative
+//  The method to find the next weight to add is as follows: start with a sum and number.
+//  The number is added to sum with each loop and loop runs until it either finds the last
+//  available weight, or a weight whose sum is greater than or equal to the target. Add that
+//  weight to the appropriate pan, and perform an operation (+ if right / - if left) on the
+//  balance to find a new balance. This process repeats until the balance reaches 0
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,60 +35,29 @@ class ternarianweights {
             rightSolutions = new ArrayList<>();
             leftSolutions = new ArrayList<>();
 
-            doSolutions(parseInt(br.readLine()), rightSolutions,leftSolutions);
+            doSolutions(-1 * parseInt(br.readLine()), rightSolutions,leftSolutions);
         }
     }
 
-    static void doSolutions(int target, ArrayList<Integer> rightSolutions, ArrayList<Integer> leftSolutions) {
-        //  Move through right solutions first, then add a new number that is
-        //  the Greatest multiple of 3, but less than num
+    static void doSolutions(int balance, ArrayList<Integer> rightSolutions, ArrayList<Integer> leftSolutions) {
 
-        boolean addingRight;
-        while (target != 0) {
-            if (target > 0)
-                addingRight = true;
-            else
-                addingRight = false;
+        ArrayList<Integer> weights;
 
-            //  find powers of 3 above and below the target
-            int above = 3;
-            int below = 1;
-            int aboveDiff;
-            int belowDiff;
-            int change;
+        int num;
+        int sum;
+        int count = 0;
+        ArrayList<Integer> used = new ArrayList<>();
 
-            //  Move above and below until they are around the target
-            while (above < abs(target)) {
-                above *= 3;
-                below *= 3;
+        while (balance != 0) {
+
+            //  Fill weights list with
+            while (sum < balance) {
+                weights.add(num);
+                sum += num;
+                num *= 3;
             }
 
 
-            //  Get differences above and below target
-            aboveDiff = above - abs(target);
-            belowDiff = abs(target) - below;
-
-            if (aboveDiff >= belowDiff && !numUsed(above,rightSolutions,leftSolutions)) {
-                //  If the above power is closer to target or equal in distance, it needs to be added to solutions
-                change = above;
-            } else if (!numUsed(below,rightSolutions,leftSolutions)){
-                //  If the below power is closer to target, it needs to be added to solutions
-                change = below;
-            }
-
-            //  If adding right the change is subtracted from target, and added to rightSolutions
-            if (addingRight) {
-                target -= change;
-                rightSolutions.add(change);
-            }
-            //  If not adding right the change is added to target, and added to leftSolutions
-            else {
-                target += change;
-                leftSolutions.add(change);
-            }
-
-
-        }
 
         //  Both pans are complete, go ahead and print them
         printSolutions(rightSolutions,leftSolutions);
@@ -109,6 +85,19 @@ class ternarianweights {
         return (rightSolutions.contains(num) || leftSolutions.contains(num));
     }
 
+    static int findWeight(int x) {
+        int sum = 0;
+        int num = 1;
+
+        //  Move up to where x is.
+        while (sum < x) {
+            sum += num;
+            num *= 3;
+        }
+
+        //  as a result num is now the
+        return num;
+    }
 }
 
 
