@@ -18,7 +18,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
@@ -41,26 +40,60 @@ class ternarianweights {
 
     static void doSolutions(int balance, ArrayList<Integer> rightSolutions, ArrayList<Integer> leftSolutions) {
 
-        ArrayList<Integer> weights;
-
-        int num;
         int sum;
-        int count = 0;
+        boolean addingRight;
         ArrayList<Integer> used = new ArrayList<>();
 
-        while (balance != 0) {
 
-            //  Fill weights list with
-            while (sum < balance) {
-                weights.add(num);
-                sum += num;
-                num *= 3;
+        while (balance != 0) {
+            //  Assign whether we are adding to right side or left side based on balance
+            addingRight = balance < 0;
+
+            //  Base case: If the balance is 1 or -1 add it to the appropriate side, print and return;
+            if (abs(balance) == 1) {
+                if (addingRight)
+                    rightSolutions.add(1);
+                else
+                    leftSolutions.add(1);
+
+                printSolutions(rightSolutions, leftSolutions);
+                return;
+            }
+
+            //  Find weight that makes sum of all weights above or equal to the balance
+            int above = 3;
+            int below = 1;
+            sum = below + above;
+
+            while (sum < abs(balance)) {
+                above *= 3;
+                below *= 3;
+                sum += above;
+            }
+
+            //  At this point we should be looking at an above and below that the balance lies between.
+            //  Check if the weights contains above and use that, if not use below instead
+            int next;
+            if (!used.contains(above))
+                next = above;
+            else
+                next = below;
+
+            //  Since next is being used use next
+            used.add(next);
+
+            if (addingRight) {
+                balance += next;
+                rightSolutions.add(next);
+            } else {
+                balance -= next;
+                leftSolutions.add(next);
             }
 
 
-
+        }
         //  Both pans are complete, go ahead and print them
-        printSolutions(rightSolutions,leftSolutions);
+        printSolutions(rightSolutions, leftSolutions);
     }
 
 
@@ -75,28 +108,10 @@ class ternarianweights {
         //  Print output from right pan
         System.out.print("\nright pan: ");
         for (int i : rightSolutions) {
-            System.out.println(i + " ");
+            System.out.print(i + " ");
         }
 
         System.out.println("\n");
-    }
-
-    static boolean numUsed(int num, ArrayList<Integer> rightSolutions, ArrayList<Integer> leftSolutions) {
-        return (rightSolutions.contains(num) || leftSolutions.contains(num));
-    }
-
-    static int findWeight(int x) {
-        int sum = 0;
-        int num = 1;
-
-        //  Move up to where x is.
-        while (sum < x) {
-            sum += num;
-            num *= 3;
-        }
-
-        //  as a result num is now the
-        return num;
     }
 }
 
