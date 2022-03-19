@@ -1,7 +1,11 @@
+/*
+ *  COP 3503 Spring 2022 Programming Assignment P1: Politics
+ *  Copyright 2022 Jeanne Claire Moore
+ */
+
+
 import java.util.*;
-
 import java.lang.String;
-
 import static java.lang.Integer.parseInt;
 
 
@@ -19,12 +23,13 @@ class Supporter {
 
 public class politics {
     public static void main(String[] args) {
+        //  Declare essential variables
         Scanner stdin = new Scanner(System.in);
-
         StringTokenizer tokenizer = new StringTokenizer(stdin.nextLine());
         int nCandidates = parseInt(tokenizer.nextToken());
         int nSupporters = parseInt(tokenizer.nextToken());
         List candidates;
+        
         //  App essentially reads all input until a set of 0 candidates is provided, and the program stops running.
         while ((nCandidates != 0) || (nSupporters != 0)) {
             //  Create an arrayList of Strings candidates and read the next three lines of input into it as elements
@@ -47,10 +52,13 @@ public class politics {
                 supporters.add(new Supporter(tokenizer.nextToken(),tokenizer.nextToken()));
             }
 
+            //  Create a tree set to store the list of candidates and fill them into it
             TreeSet<String> candTree = new TreeSet<>();
             candTree.addAll(candidates);
 
+            //  Loop through the candidate tree and add write in candidates not originally listed
             for (int i = 0; i < nSupporters; i++){
+                //  Write in candidates are not listed with main candidates, they are found with individual supporters
                 if (!candTree.contains(supporters.get(i).candidate)) {
                     candTree.add(supporters.get(i).candidate);
                     candidates.add(supporters.get(i).candidate);
@@ -61,12 +69,13 @@ public class politics {
 
             //  The list of supporters is filled now time to create a sorted list by the candidate names
             for (int i = 0; i < nCandidates; i++) {
-
                 for (int j = 0; j < nSupporters; j++) {
+                    
                     if (supporters.get(j).candidate.equals((CharSequence) candidates.get(i))) {
+                        //  Move the sorter to the sorted list
                         sorted.add(supporters.remove(j).name);
-                        nSupporters --;
-                        j--;
+                        nSupporters --; // <-- Test if these two lines can be removed
+                        j--;            // <--
                     }
                 }
             }
@@ -82,10 +91,12 @@ public class politics {
                 System.out.println(sorted.get(i));
             }
 
+            //  Clear all lists, and redeclare tokenizer to take in more input
             supporters.clear();
             candidates.clear();
             sorted.clear();
             tokenizer = new StringTokenizer(stdin.nextLine());
+            
             //  Read the next couple lines
             nCandidates = parseInt(tokenizer.nextToken());
             nSupporters = parseInt(tokenizer.nextToken());
