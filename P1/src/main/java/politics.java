@@ -74,8 +74,8 @@ public class politics {
                     if (supporters.get(j).candidate.equals((CharSequence) candidates.get(i))) {
                         //  Move the sorter to the sorted list
                         sorted.add(supporters.remove(j).name);
-                        nSupporters --; // <-- Test if these two lines can be removed
-                        j--;            // <--
+                        nSupporters --;
+                        j--;
                     }
                 }
             }

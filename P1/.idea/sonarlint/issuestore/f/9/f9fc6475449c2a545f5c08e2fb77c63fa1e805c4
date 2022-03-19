@@ -1,0 +1,20 @@
+
+J
+java:S3740"/Provide the parametrized type for this generic.(µæı‡ûÿÿÿÿ
+l
+java:S1128"QRemove this unnecessary import: java.lang classes are always implicitly imported.(ôİÕıÿÿÿÿ
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(Çµí‘
+D
+java:S5413L")Verify that "remove()" is used correctly.(õŠè…ûÿÿÿÿ
+E
+java:S1905J"/Remove this unnecessary cast to "CharSequence".(×ĞÃç
+M	java:S106["9Replace this use of System.out or System.err by a logger.(¢²\
+t	java:S127N"XRefactor the code in order to not assign to this loop counter from within the loop body.(Â¨•ù8¬ª”ú/
+f
+java:S1104"PMake name a static final constant or non-public and provide accessors if needed.( şÍ¾
+p
+java:S1104"UMake candidate a static final constant or non-public and provide accessors if needed.(ÏÕÙùÿÿÿÿ
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(çü²Âúÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
