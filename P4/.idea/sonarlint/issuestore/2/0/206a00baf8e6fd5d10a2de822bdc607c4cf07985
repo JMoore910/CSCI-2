@@ -1,34 +1,37 @@
 
 l
-java:S1128"QRemove this unnecessary import: java.lang classes are always implicitly imported.(ôİÕıÿÿÿÿ
+java:S1128	"QRemove this unnecessary import: java.lang classes are always implicitly imported.(ôİÕıÿÿÿÿ
 h
-java:S3008 "MRename this field "DX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(û¹‹ñşÿÿÿÿ
+java:S3008("MRename this field "DX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”»Ùúÿÿÿÿ
 c
-java:S3008!"MRename this field "DY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰ìå
-Š
-java:S11725"oRemove these unused method parameters "start", "target", "visited", "moves", "priorityQueue", "sizeX", "sizeY".(€”öÑùÿÿÿÿ
-e
-java:S1172G"JRemove these unused method parameters "teleportID", "curLocation", "grid".(ÄñàÅüÿÿÿÿ
-T
-java:S1172N"9Remove these unused method parameters "point", "visited".(²š¦ıÿÿÿÿ
-J
-java:S11445"/Remove this unused private "mazeRunner" method.(€”öÑùÿÿÿÿ
+java:S3008)"MRename this field "DY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çèåÆ
+S	java:S106W"9Replace this use of System.out or System.err by a logger.(¡ò†şÿÿÿÿ
+S	java:S106Y"9Replace this use of System.out or System.err by a logger.(š°îšÿÿÿÿÿ
+m
+java:S3776]"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(€”öÑùÿÿÿÿ
+M
+java:S1854g"7Remove this useless assignment to local variable "cur".(Ï‹ªì
 H
-java:S1144G"-Remove this unused private "teleport" method.(ÄñàÅüÿÿÿÿ
-G
-java:S1144N",Remove this unused private "visited" method.(²š¦ıÿÿÿÿ
-G
-java:S1144T",Remove this unused private "isValid" method.(Û”²õüÿÿÿÿ
-V	java:S1075"<Method has 8 parameters, which is greater than 7 authorized.(€”öÑùÿÿÿÿ
+java:S1172]"-Remove this unused method parameter "target".(€”öÑùÿÿÿÿ
+f
+java:S1172š"JRemove these unused method parameters "teleportID", "curLocation", "grid".(ÄñàÅüÿÿÿÿ
+j
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(Õø‹ù
+I
+java:S1144š"-Remove this unused private "teleport" method.(ÄñàÅüÿÿÿÿ
+J
+java:S1066~"/Merge this if statement with the enclosing one.(±‡™Àûÿÿÿÿ
+F
+java:S1066"/Merge this if statement with the enclosing one.(ëÈÏ
 k
-java:S1104"PMake tile a static final constant or non-public and provide accessors if needed.(êÁ¡»üÿÿÿÿ
+java:S1104"PMake tile a static final constant or non-public and provide accessors if needed.(êÁ¡»üÿÿÿÿ
 h
-java:S1104"MMake x a static final constant or non-public and provide accessors if needed.(±Šõ¶ûÿÿÿÿ
+java:S1104"MMake x a static final constant or non-public and provide accessors if needed.(±Šõ¶ûÿÿÿÿ
 h
-java:S1104"MMake y a static final constant or non-public and provide accessors if needed.(ÔçÛşÿÿÿÿ
+java:S1104"MMake y a static final constant or non-public and provide accessors if needed.(ÔçÛşÿÿÿÿ
 l
-java:S1104"QMake moves a static final constant or non-public and provide accessors if needed.(§”óşÿÿÿÿ
-g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(„óíøşÿÿÿÿ
-g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Ó¢·˜øÿÿÿÿ
+java:S1104"QMake moves a static final constant or non-public and provide accessors if needed.(§”óşÿÿÿÿ
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(„óíøşÿÿÿÿ
+g	java:S101&"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Ó¢·˜øÿÿÿÿ
 0
 java:S1220""Move this file to a named package.

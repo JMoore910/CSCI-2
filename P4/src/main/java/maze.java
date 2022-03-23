@@ -4,6 +4,7 @@
  */
 
 
+import java.sql.Array;
 import java.util.*;
 import java.lang.String;
 import static java.lang.Integer.MAX_VALUE;
@@ -24,46 +25,128 @@ class coordinates {
     }
 }
 
+class SortByMoves implements Comparator<coordinates> {
+    //  Sorter for priority queue
+    public int compare(coordinates x, coordinates y) {
+        return x.moves-y.moves; //  Swap these if not working
+    }
+}
+
 //  Coordinates will have a num of moves to make
 //  Implement BFS and BACKTRACKING!!!!
 
 public class maze {
-    //  Create DX and DY arrays
-    static int[] DX = { 1, 1, 0,-1,-1,-1, 0, 1};
-    static int[] DY = { 0, 1, 1, 1, 0,-1,-1,-1};
+    //  Create DX and DY arrays for 4 directions
+    static int[] DX = { 1, 0,-1, 0};
+    static int[] DY = { 0, 1, 0,-1};
 
     public static void main(String[] args) {
         //  Implement maze search with BFS and Backtracking
         //  Proceedures are as follows:
-        //  Take in input using a tokenizer
+        //  Take in input using a Scanner
         //  Take in sizeY and sizeX
+        Scanner sc = new Scanner(System.in);
+        int sizeX;
+        int sizeY;
+        String in = sc.nextLine();
+
+        sizeY = (Integer.parseInt(Arrays.asList(in.split(" ")).get(0)));
+        sizeX = (Integer.parseInt(Arrays.asList(in.split(" ")).get(1)));
+
+        coordinates start = new coordinates(MAX_VALUE,MAX_VALUE,'%');
+        coordinates target= new coordinates(MAX_VALUE,MAX_VALUE,'%');
+
+        coordinates[][] grid = new coordinates[sizeY][sizeX];
+        int stars = 0;
+        int finishes = 0;
         //  Take in sizeY * sizeX grid of characters
-        //  While taking in input keep track of num of *s and $s in grid.
-        //  Set start coordinate with *
-        //  Set target coordinate with $
-        //  Create a priority queue to store possible moves
-        //  At end if either * count or $ count do not equal 1, return -1
+        for (int i = 0; i < sizeY; i++) {
+            in = sc.nextLine();
+            for (int j = 0; j < sizeX; j++) {
+                grid[i][j] = new coordinates(j, i, in.charAt(j));
+                if (grid[i][j].tile == '*') {
+                    start = grid[i][j];
+                    stars++;
+                }
+                if (grid[i][j].tile == '$') {
+                    target = grid[i][j];
+                    finishes++;
+                }
+            }
+
+            if ((stars > 1) || (finishes > 1) || (start.tile == '%') || (target.tile == '%'))
+                return;
+        }
 
         //  Now that we have a grid, and a starting point, we may begin.
         //  Place starting coordinate into priority queue
         //  plug all necessary vars into mazeRunner method
+
+        grid = mazeRunner(start,target,grid,sizeX,sizeY);
+        if (grid[target.y][target.x].moves == MAX_VALUE) {
+            System.out.println(-1);
+        } else {
+            System.out.println(grid[target.y][target.x].moves);
+        }
     }
 
-    //  Make method recursive for traversing maze pathways
     private static coordinates[][] mazeRunner(coordinates start, coordinates target,
-                                              coordinates[][] grid, coordinates[] visited, int moves,
-                                              PriorityQueue<coordinates> priorityQueue,  int sizeX, int sizeY ){
-        //  ALWAYS CHECK IF MOVES IS LARGER THAN CURRENT, if so return the grid
-        //  Run while priority queue is not empty. After the priority queue is empty, return grid
-        //  coordinates location = priorityQueue.poll()
-        //  If standing on a Capital letter (regex [A-Z]) find teleport tiles with teleport method
-        //      and add what has not been visited yet to the priority queue
-        //  Then add all places around current location that are valid and not visited using DX and DY
-        //  if isvalid && notvisited
-        //      if grid[DY + y][DX + x].tile == '.'
-        //          here is a valid point to add to the priority queue
-        //
-        //  Once priority queue has all possible moves from location, call recursively with moves+1
+                                              coordinates[][] grid, int sizeX, int sizeY){
+        //  Method takes in the filled grid, the starting point, and the target
+        //  Use BFS to search the areas around the current place
+
+        //  Things we will need are a priority queue and a visited array to store places we've been
+        List<coordinates> list = new ArrayList<>();
+        boolean[][] visited = new boolean[sizeY][sizeX];
+
+        //  Set cur to start and add it to the priority queue
+        coordinates cur = start;
+        list.add(start);
+        int move = 0;
+        int x;
+        int y;
+        char teleporter;
+
+        grid[start.y][start.x].moves = 0;
+
+
+        while (!list.isEmpty()) {
+            cur = list.get(0);
+            list.remove(0);
+            visited[cur.y][cur.x] = true;
+
+            //  Check if current tile is a teleport tile.
+            if (Character.isUpperCase(cur.tile)) {
+                //  if so, search board for char teleport, and add them to priority queue
+                teleporter = cur.tile;
+                for (int i = 0; i < sizeX * sizeY; i++) {
+                    x = i % sizeX;
+                    y = i / sizeY;
+                    if (grid[y][x].tile == teleporter) {
+                        if ((move + 1 < grid[y][x].moves) && (!visited[y][x])) {
+                            //  add those tiles to the priority queue
+                            list.add(grid[y][x]);
+                            grid[y][x].moves = cur.moves + 1;
+                            Collections.sort(list, new SortByMoves());
+                        }
+                    }
+
+                }
+            }
+            //  Use DX and DY to look at placements
+            //  up down to left and right of current tile
+            for (int i = 0; i < 4; i++) {
+                x = cur.x + DX[i];
+                y = cur.y + DY[i];
+                if (isValid(sizeX, sizeY, x, y)) {
+                    if ((grid[y][x].tile == '.' || grid[y][x].tile == '$') && !visited[y][x]) {
+                        //  Add the observed tile to the priority queue
+                        list.add(grid[y][x]);
+                    }
+                }
+            }
+        }
+
         return grid;
     }
 
@@ -75,14 +158,9 @@ public class maze {
         return new ArrayList<>();
     }
 
-    private static boolean visited(coordinates point, ArrayList<coordinates> visited){
-        //  loop through and check if point falls within the visited array list, if so return true
-        return false;
-    }
-
 
     private static boolean isValid(int sizeX, int sizeY, int x, int y) {
         //  Simply return whether the point's
-        return ((x < sizeX) && (y < sizeY));
+        return ((x > -1) && (x < sizeX) && (y > -1) && (y < sizeY));
     }
 }
