@@ -110,44 +110,27 @@ public class maze {
         //  Set cur to start and add it to the priority queue
         coordinates cur;
         list.add(start);
-        int move = 0;
         int x;
         int y;
         char teleporter;
         ArrayList<coordinates> teleporters;
-
-
+        ArrayList<Character> teleportersUsed = new ArrayList<>();
+        grid[start.y][start.x].moves = 0;
 
         while (!list.isEmpty()) {
+            //  Get current from list
             cur = list.get(0);
-            System.out.print(cur.x + " " + cur.y);
             list.remove(0);
 
-            grid[cur.y][cur.x].moves = move;
             visited[cur.y][cur.x] = true;
 
-            System.out.println(cur.tile);
-            //  Check if cur is a dollar sign if so return grid
-            if (cur.tile == '$') {
-                System.out.println("found it");
-                return grid;
-            }
-
-
-
             //  Check if current tile is a teleport tile.
-            if (Character.isUpperCase(cur.tile)) {
-
-
-
-
-
-
+            if (Character.isUpperCase(cur.tile) && !teleportersUsed.contains(cur.tile)) {
+                teleportersUsed.add(cur.tile);
                 //  if so, search board for char teleport, and add them to priority queue
-                System.out.println("Teleporter found!");
 
                 teleporter = cur.tile;
-                teleporters = teleport(teleporter,grid,sizeX,sizeY);
+                teleporters = teleport(teleporter,grid,sizeX,sizeY, visited);
 
                 for (coordinates i : teleporters) {
                     if (!visited[i.y][i.x])
@@ -164,7 +147,7 @@ public class maze {
                 if (isValid(sizeX, sizeY, x, y)) {
                     if ((grid[y][x].tile == '.' || grid[y][x].tile == '$' || Character.isUpperCase(grid[y][x].tile)) && !visited[y][x]) {
                         //  Add the observed tile to the priority queue
-                        grid[y][x].moves = cur.moves + 1;
+                        grid[y][x].moves = grid[cur.y][cur.x].moves + 1;
                         list.add(grid[y][x]);
                     }
                 }
@@ -174,15 +157,17 @@ public class maze {
         return grid;
     }
 
+    //  TELEPORT METHOD NEEDS TO BE REDONE
 
-    private static ArrayList<coordinates> teleport(char teleportID, coordinates[][] grid, int sizeX, int sizeY){
+    private static ArrayList<coordinates> teleport(char teleportID,  coordinates[][] grid,
+                                                   int sizeX, int sizeY, boolean[][] visited){
         //  Takes the id of the teleporter being used.
         //  Finds all points on grid that can be teleported to and add them to an arraylist of coordinates
         ArrayList<coordinates> teleporters = new ArrayList<>();
 
         for (int i = 0; i < sizeY; i++) {
             for (int j = 0; j < sizeX; j++) {
-                if (grid[i][j].tile == teleportID) {
+                if ((grid[i][j].tile == teleportID) && (!visited[i][j])) {
                     teleporters.add(grid[i][j]);
                 }
             }
