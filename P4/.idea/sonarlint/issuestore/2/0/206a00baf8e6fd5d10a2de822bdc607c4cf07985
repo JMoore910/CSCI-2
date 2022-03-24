@@ -5,24 +5,18 @@ h
 java:S3008("MRename this field "DX" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”»Ùúÿÿÿÿ
 c
 java:S3008)"MRename this field "DY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çèåÆ
-S	java:S106W"9Replace this use of System.out or System.err by a logger.(¡ò†şÿÿÿÿ
-S	java:S106Y"9Replace this use of System.out or System.err by a logger.(š°îšÿÿÿÿÿ
+S	java:S106`"9Replace this use of System.out or System.err by a logger.(¡ò†şÿÿÿÿ
+S	java:S106b"9Replace this use of System.out or System.err by a logger.(š°îšÿÿÿÿÿ
 m
-java:S3776]"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(€”öÑùÿÿÿÿ
-M
-java:S1854g"7Remove this useless assignment to local variable "cur".(Ï‹ªì
-H
-java:S1172]"-Remove this unused method parameter "target".(€”öÑùÿÿÿÿ
-f
-java:S1172š"JRemove these unused method parameters "teleportID", "curLocation", "grid".(ÄñàÅüÿÿÿÿ
+java:S3776f"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(”½„åùÿÿÿÿ
+S	java:S106{"9Replace this use of System.out or System.err by a logger.(Æ•ú½üÿÿÿÿ
+O	java:S106"9Replace this use of System.out or System.err by a logger.(ì­Ë‘
+O	java:S106„"9Replace this use of System.out or System.err by a logger.(ñ÷úƒ
+O	java:S106“"9Replace this use of System.out or System.err by a logger.(÷«ùå
 j
 java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(Õø‹ù
-I
-java:S1144š"-Remove this unused private "teleport" method.(ÄñàÅüÿÿÿÿ
-J
-java:S1066~"/Merge this if statement with the enclosing one.(±‡™Àûÿÿÿÿ
 F
-java:S1066"/Merge this if statement with the enclosing one.(ëÈÏ
+java:S1066¥"/Merge this if statement with the enclosing one.(™öé¶
 k
 java:S1104"PMake tile a static final constant or non-public and provide accessors if needed.(êÁ¡»üÿÿÿÿ
 h
@@ -35,3 +29,5 @@ g	java:S101"MRename this class name to match the regular expression '^[A-Z][a
 g	java:S101&"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Ó¢·˜øÿÿÿÿ
 0
 java:S1220""Move this file to a named package.
+£
+java:S2681›"†This line will not be executed conditionally; only the first line of this 2-line block will be. The rest will execute unconditionally.(Şß×Øøÿÿÿÿ
