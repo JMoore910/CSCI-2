@@ -1,0 +1,20 @@
+
+W
+java:S2094"BRemove this empty class, write its code or make it an "interface".(÷ßåf
+P	java:S1251"<This block of commented-out lines of code should be removed.(ÎÝÖ9
+o
+java:S3012^"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(–„´Œ
+n
+java:S3012y"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(Ôû½n
+o
+java:S3012„"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(Ôû½n
+W	java:S125™"<This block of commented-out lines of code should be removed.(—­¸žúÿÿÿÿ
+j
+java:S1128
+"TRemove this unnecessary import: same package classes are always implicitly imported.(Î€ŒÙ
+j
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(âî©
+a	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(÷ßåf
+a	java:S101R"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ë—¿.
+0
+java:S1220""Move this file to a named package.
