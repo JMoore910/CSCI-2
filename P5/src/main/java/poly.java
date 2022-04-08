@@ -15,67 +15,173 @@ public class poly {
     //  Create a global: recursions = 0
     //  iterate upwards every time either mult or longmult are called
 
-    //  in main:
-    //  Get input:
-    //  n
-    //  poly 1 is of size 2^n
-    //  poly 2 is of size 2^n
+    public static void main(String[] args) throws Exception {
+        //  in main:
+        Scanner sc = new Scanner(System.in);
+        int n = Integer.parseInt(sc.nextLine());
+        String input1, input2;
+        input1 = sc.nextLine();
+        input2 = sc.nextLine();
 
-    //  start timer and run slowmult using n^2 algorithm
+        List<String> strs1 = Arrays.asList(input1.split(" "));
+        List<String> strs2 = Arrays.asList(input2.split(" "));
 
-    //  output end - start to show total time of base case
+        int k = (int) Math.pow(2, n);
+        long[] vals1 = new long[k];
+        long[] vals2 = new long[k];
 
-    //
+        for (int i = 0; i < k; i++) {
+            vals1[i] = Long.parseLong(strs1.get(i));
+            vals2[i] = Long.parseLong(strs2.get(i));
+        }
 
-    //  Read in two lines as strings, then split them into an array of longs
+        //  start timer and run slowmult using n^2 algorithm
+        polynomial res = poly.mult(new polynomial(vals1,n-1), new polynomial(vals2,n-1));
+        System.out.println(res.getCoeffs());
+        //  output end - start to show total time of base case
 
+
+        //  Read in two lines as strings, then split them into an array of longs
+    }
 
     //  add polys method
-    //  takes two polynomials, must be of the same length
-    //  create array of longs, loop through the two polys,
-    //  add the values into the array of longs until thru
-    //  return the array of longs as a new polynomial
+    static polynomial addPolys(polynomial a, polynomial b) throws Exception {
+        //  takes two polynomials, must be of the same length
+        if (a.getLength() != b.getLength()) {
+            throw new Exception("Polynomials not equal size");
+        }
+
+        for(int i = 0; i < a.getLength(); i++) {
+            a.addCoeff(i, b.getCoeff(i));
+        }
+
+        //  return the polynomial
+        return a;
+    }
+
 
     //  sub polys method
-    //  takes two polynomials, must be of the same length
-    //  create array of longs, loop through the two polys,
-    //  sub the values into the array of longs until thru
-    //  return the array of longs as a new polynomial
+    static polynomial subPolys(polynomial c, polynomial a, polynomial b) throws Exception {
+        //  takes two polynomials, must be of the same length
+        if (a.getLength() != c.getLength() || a.getLength() != b.getLength()) {
+            throw new Exception("Polynomials not equal size");
+        }
+
+        //  Move through polynomials and sub their values
+        for (int i = 0; i < c.getLength(); i++) {
+            c.subCoeff(i,a.getCoeff(i));
+            c.subCoeff(i,b.getCoeff(i));
+        }
+
+        //  Return c as resulting polynomial
+        return c;
+    }
+
 
     //  multSlow method
-    //  Only run this for the base case to compare against
-    //  move through each element of the first polynomial, multiply it to every other element of the other polynomial,
-    //  and add them into the degree in which they fit aka 10^x
-    //  for (int i = 0; i < first.getLength(); i++) {
-    //      for (int j = 0; j < second.getLength(); j++)
-    //
-    //
-    //
+    static polynomial multSlow(polynomial a, polynomial b) {
+        //  Only run this for the base case to compare against
+        //  move through each element of the first polynomial, multiply it to every other element of the other polynomial,
+        //  and add them into the degree in which they fit aka 10^x
+
+        int k = a.getK()+1;
+        int n = 1<<(a.getK()+1);
+
+        long[] vals = new long[n];
+        for (int i = 0; i < n; i++) {
+            vals[i] = 0;
+        }
+
+        for (int i = 0; i < a.getLength(); i++) {
+            for (int j = 0; j < b.getLength(); j++) {
+                vals[i+j] += a.getCoeff(i) * b.getCoeff(j);
+            }
+        }
+
+        polynomial res = new polynomial(vals, k);
+        return res;
+    }
 
     //  mult method
-    //  Split the polynomials in half into polys a, b, c, d
-    //  a = getLeft(first)
-    //  b = getRight(first)
-    //  c = getLeft(second)
-    //  d = getRight(second)
+    static polynomial mult(polynomial first, polynomial second) throws Exception {
+        //  the two polys MUST BE SAME SIZE
+        if (first.getLength() != second.getLength()) {
+            throw new Exception("Polynomials not equal size");
+        }
 
-    //  If the split polynomials have reached single elements, then run karatsuba's alg
-    //  the two polys MUST BE SAME SIZE
-    //  on the individual
+        //  Split the polynomials in half into polys a, b, c, d
+        polynomial a, b, c, d;
+        a = first.getLeft();
+        b = first.getRight();
+        c = second.getLeft();
+        d = second.getRight();
+
+        //  Declare product polys
+        polynomial ac, bd, md;
+
+        if (a.getLength() == 1) {
+            //  find ac, bd, and ad + bc
+            ac = new polynomial(longmult(a.getCoeff(0),c.getCoeff(0)));
+            bd = new polynomial(longmult(b.getCoeff(0),d.getCoeff(0)));
+            md = new polynomial(longmult(addPolys(a,b).getCoeff(0),addPolys(c,d).getCoeff(0)));
+
+        } else {
+            //  If the polys are still larger than one, recurse into mult again
+            ac = mult(a,c);
+            bd = mult(b,d);
+            md = mult(addPolys(a,b),addPolys(c,d));
+        }
+
+        //  In addition, sub out ac and bd
+        md = subPolys(md, ac, bd);
+
+        //  Build an array of longs using ac, md, and bd
+        long[] vals = new long[md.getLength()+ac.getLength()+ bd.getLength()];
+
+        int k = first.getK()+1;
+
+        polynomial result = new polynomial(vals, k);
+        return result;
+    }
 
 
     //  longmult method
-    //  split two longs in half by digits into: a, b, c, d longs
-    //  long ac, bd, md
-    //
-    //  get num of digits in first and second input longs, store as n and m
-    //  n = max(n , m)
-    //  ac = longmult(a,c)
-    //  bd = longmult(b,d)
-    //  md = longmult(a+b,c+d) - (ac + bd)
-    //  res = ac * 10^n + md * 10^n/2 + bd
+    static long longmult(long first, long second) {
+        if (first < 10 || second < 10)
+            return first * second;
 
-    //  return result
+
+        String firstStr, secondStr;
+
+        //  split two longs in half by digits into: a, b, c, d longs
+        //  long ac, bd, md
+        firstStr = Long.toString(first);
+        secondStr = Long.toString(second);
+
+        //  get num of digits in first and second input longs, store as n and m
+        int n, m;
+        n = firstStr.length();
+        m = secondStr.length();
+
+        //  Get four pieces and split the two input long strings into them
+        String a, b, c, d;
+        a = firstStr.substring(0,n/2);
+        b = firstStr.substring(n/2);
+        c = secondStr.substring(0, m/2);
+        d = secondStr.substring(m/2);
+
+        //  Get the maximum of the two nums of digits
+        n = Math.max(n, m);
+        long ac, bd, md;
+
+        ac = longmult(Long.parseLong(a),Long.parseLong(c));
+        bd = longmult(Long.parseLong(b),Long.parseLong(d));
+        md = longmult(Long.parseLong(a)+Long.parseLong(b),Long.parseLong(c)+Long.parseLong(d)) - (ac + bd);
+        long res = (long) (ac * Math.pow(10,n) + md * Math.pow(10, n/2) + bd);
+
+        //  return result
+        return res;
+    }
 }
 
 
@@ -95,6 +201,15 @@ class polynomial {
         }
     }
 
+    //  This constructor creates a polynomial of size 1
+    public polynomial (long val) {
+        k = 0;
+        length = 1;
+        coeff = new long[length];
+
+        coeff[0] = val;
+    }
+
     //  Create getters to grab length and coefficients
     public int getLength() {
         return length;
@@ -108,9 +223,17 @@ class polynomial {
         return coeff[i];
     }
 
+    public int getK() {
+        return k;
+    }
+
     //  Create a method that adds a long value to the coefficients
     public void addCoeff(int i, long x) {
         coeff[i] += x;
+    }
+
+    public void subCoeff(int i, long x) {
+        coeff[i] -= x;
     }
 
     //  takes left half of the polynomial
@@ -129,7 +252,7 @@ class polynomial {
         long[] vals = new long[length - length/2];
 
         for (int i = length/2; i < length; i++){
-            vals[i] = coeff[i];
+            vals[i-(length/2)] = coeff[i];
         }
 
         return new polynomial(vals, k-1);
