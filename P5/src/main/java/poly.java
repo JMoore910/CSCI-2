@@ -3,20 +3,16 @@
  *  Copyright 2022 Jeanne Claire Moore
  */
 
-// Arup Guha
-// 3/27/2018
-// Implementation of integer multiplication algorithm with run time n^(log 2 3).
-
 import java.util.*;
 import java.math.*;
 
 
 public class poly {
     //  Create a global: recursions = 0
+    public static int recursions = 0;
     //  iterate upwards every time either mult or longmult are called
 
     public static void main(String[] args) throws Exception {
-        //  in main:
         Scanner sc = new Scanner(System.in);
         int n = Integer.parseInt(sc.nextLine());
         String input1, input2;
@@ -35,13 +31,34 @@ public class poly {
             vals2[i] = Long.parseLong(strs2.get(i));
         }
 
-        //  start timer and run slowmult using n^2 algorithm
-        polynomial res = poly.mult(new polynomial(vals1,n-1), new polynomial(vals2,n-1));
-        System.out.println(res.getCoeffs());
-        //  output end - start to show total time of base case
+        //  Call mult method with two polynomials constructed from values
+        polynomial res = poly.mult(new polynomial(vals1), new polynomial(vals2));
 
+        //  Get output string builder and print it
+        StringBuilder output = res.buildOutput();
+        System.out.print(output);
+    }
 
-        //  Read in two lines as strings, then split them into an array of longs
+    static polynomial combinePolys(polynomial ac, polynomial md, polynomial bd) {
+        int length = ac.getLength() * 2;
+        int half = ac.getLength() / 2;
+        long[] vals = new long[length];
+        for (int i = 0; i < length; i++) {
+            if (i < ac.getLength()) {
+                vals[i] += ac.getCoeff(i);
+            }
+            if ((i < ac.getLength() + half) && (i > half)) {
+                vals[i] += md.getCoeff(i-half);
+            }
+            if (i > ac.getLength()) {
+                vals[i] += bd.getCoeff(i-ac.getLength());
+            }
+        }
+
+        //  With this, vals is the full array of longs
+        //  Use it to create a new polynomial result
+        polynomial result = new polynomial(vals);
+        return result;
     }
 
     //  add polys method
@@ -73,6 +90,7 @@ public class poly {
             c.subCoeff(i,b.getCoeff(i));
         }
 
+
         //  Return c as resulting polynomial
         return c;
     }
@@ -84,8 +102,8 @@ public class poly {
         //  move through each element of the first polynomial, multiply it to every other element of the other polynomial,
         //  and add them into the degree in which they fit aka 10^x
 
-        int k = a.getK()+1;
-        int n = 1<<(a.getK()+1);
+
+        int n = a.getLength() + b.getLength();
 
         long[] vals = new long[n];
         for (int i = 0; i < n; i++) {
@@ -94,16 +112,22 @@ public class poly {
 
         for (int i = 0; i < a.getLength(); i++) {
             for (int j = 0; j < b.getLength(); j++) {
-                vals[i+j] += a.getCoeff(i) * b.getCoeff(j);
+                recursions++;
+                vals[i+j+1] += a.getCoeff(i) * b.getCoeff(j);
             }
         }
 
-        polynomial res = new polynomial(vals, k);
+        polynomial res = new polynomial(vals);
         return res;
     }
 
     //  mult method
     static polynomial mult(polynomial first, polynomial second) throws Exception {
+        recursions++;
+        if (first.getLength() < 32) {
+            return multSlow(first, second);
+        }
+        recursions++;
         //  the two polys MUST BE SAME SIZE
         if (first.getLength() != second.getLength()) {
             throw new Exception("Polynomials not equal size");
@@ -116,14 +140,18 @@ public class poly {
         c = second.getLeft();
         d = second.getRight();
 
+
         //  Declare product polys
         polynomial ac, bd, md;
 
-        if (a.getLength() == 1) {
+        if ((a.getLength() == 2) && (!a.checkIsSplittable())) {
             //  find ac, bd, and ad + bc
-            ac = new polynomial(longmult(a.getCoeff(0),c.getCoeff(0)));
-            bd = new polynomial(longmult(b.getCoeff(0),d.getCoeff(0)));
-            md = new polynomial(longmult(addPolys(a,b).getCoeff(0),addPolys(c,d).getCoeff(0)));
+            ac = new polynomial(longmult(a.getCoeff(1),c.getCoeff(1)));
+
+            bd = new polynomial(longmult(b.getCoeff(1),d.getCoeff(1)));
+
+            md = new polynomial(longmult(addPolys(a,b).getCoeff(1),addPolys(c,d).getCoeff(1)));
+
 
         } else {
             //  If the polys are still larger than one, recurse into mult again
@@ -132,23 +160,24 @@ public class poly {
             md = mult(addPolys(a,b),addPolys(c,d));
         }
 
-        //  In addition, sub out ac and bd
         md = subPolys(md, ac, bd);
 
-        //  Build an array of longs using ac, md, and bd
-        long[] vals = new long[md.getLength()+ac.getLength()+ bd.getLength()];
 
-        int k = first.getK()+1;
+        //  Vals should be built properly
+        polynomial result = combinePolys(ac,md,bd);
 
-        polynomial result = new polynomial(vals, k);
         return result;
     }
 
-
+    //  HERE IS A METHOD I MADE FOR FUN WHERE WE LOOK AT INDIVIDUAL LONGS AND PUNCH OURSELVES FOR PUTTING WAY TOO
+    //  MUCH WORK INTO THE MATH NO THIS WAS NOT REQUIRED AND I AM MAD. longmult does NOT WORK in most situations, like
+    //  it almost works but only for certain cases
     //  longmult method
     static long longmult(long first, long second) {
-        if (first < 10 || second < 10)
+        recursions++;
+        if (first < 10 || second < 10) {
             return first * second;
+        }
 
 
         String firstStr, secondStr;
@@ -162,6 +191,7 @@ public class poly {
         int n, m;
         n = firstStr.length();
         m = secondStr.length();
+        int k = n + m - 3;
 
         //  Get four pieces and split the two input long strings into them
         String a, b, c, d;
@@ -171,15 +201,17 @@ public class poly {
         d = secondStr.substring(m/2);
 
         //  Get the maximum of the two nums of digits
-        n = Math.max(n, m);
         long ac, bd, md;
+
 
         ac = longmult(Long.parseLong(a),Long.parseLong(c));
         bd = longmult(Long.parseLong(b),Long.parseLong(d));
         md = longmult(Long.parseLong(a)+Long.parseLong(b),Long.parseLong(c)+Long.parseLong(d)) - (ac + bd);
-        long res = (long) (ac * Math.pow(10,n) + md * Math.pow(10, n/2) + bd);
-
+        System.out.println(ac + " " + md + " " + bd);
+        double res1 =  (ac * Math.pow(10,k) + md * Math.pow(10, k/2) + bd);
+        System.out.println(res1 + "\n");
         //  return result
+        long res = 1;
         return res;
     }
 }
@@ -189,25 +221,34 @@ class polynomial {
     private int k;
     private int length;
     private long[] coeff;
+    private boolean isSplittable;
 
     //  This constructor serves to create a polynomial of degree size 1 shifted left k
-    public polynomial (long[] vals, int k) {
-        this.k = k;
-        length = 1<<k;
-        coeff = new long[length];
+    public polynomial (long[] vals) {
+        if (vals.length == 1) {
+            length = 2;
+            coeff = new long[length];
+            coeff[0] = 0;
+            coeff[1] = vals[0];
+            isSplittable = false;
+        } else {
+            length = vals.length;
+            coeff = new long[length];
 
-        for (int i = 0; i < length; i++){
-            coeff[i] = vals[i];
+            for (int i = 0; i < length; i++) {
+                coeff[i] = vals[i];
+            }
+            isSplittable = true;
         }
     }
 
     //  This constructor creates a polynomial of size 1
     public polynomial (long val) {
-        k = 0;
-        length = 1;
+        k = 1;
+        length = 2;
         coeff = new long[length];
 
-        coeff[0] = val;
+        coeff[1] = val;
     }
 
     //  Create getters to grab length and coefficients
@@ -236,6 +277,10 @@ class polynomial {
         coeff[i] -= x;
     }
 
+    public boolean checkIsSplittable() {
+        return isSplittable;
+    }
+
     //  takes left half of the polynomial
     public polynomial getLeft() {
         long[] vals = new long[length/2];
@@ -244,7 +289,7 @@ class polynomial {
             vals[i] = coeff[i];
         }
 
-        return new polynomial(vals, k-1);
+        return new polynomial(vals);
     }
 
     //  takes right half of the polynomial
@@ -255,158 +300,25 @@ class polynomial {
             vals[i-(length/2)] = coeff[i];
         }
 
-        return new polynomial(vals, k-1);
+        return new polynomial(vals);
     }
 
-}
-
-
-
-
-
-
-//  The following code is copyrighted by ARUP GUHA and was slightly modified for this assignment
-
-// Arup Guha
-// 3/27/2018
-// Implementation of integer multiplication algorithm with run time n^(log 2 3).
-
-
-/*
-class intmult {
-
-    final public static int SIZE = 250000;
-
-    public static void main(String[] args) {
-
-        Random r = new Random();
-
-        // Generate one random multiplication
-        String s = getRandNum(r);
-        String t = getRandNum(r);
-
-        long[] a = convert(s);
-        long[] b = convert(t);
-
-        long startMine = System.currentTimeMillis();
-        long[] tmp = mult(a, b);
-        long endMine = System.currentTimeMillis();
-
-        // Smooth it out so digits are all in between 0 and 9.
-        ArrayList<Integer> res = smooth(tmp);
-
-        char[] str = new char[res.size()];
-        for (int i=res.size()-1,j=0; i>=0; i--,j++)
-            str[j] = (char)(res.get(i) + '0');
-        String myans = new String(str);
-
-        // Now do big integers to double check.
-        BigInteger mya = new BigInteger(s);
-        BigInteger myb = new BigInteger(t);
-        long startJava = System.currentTimeMillis();
-        BigInteger prod = mya.multiply(myb);
-        long endJava = System.currentTimeMillis();
-
-        if (myans.equals(prod.toString()))
-            System.out.println("correct! my time = "+(endMine-startMine)+" ms, Java time = "+(endJava-startJava)+" ms.");
-    }
-
-    public static String getRandNum(Random r) {
-        char[] res = new char[SIZE];
-        res[0] = (char)(1 + r.nextInt(9) + '0');
-        for (int i=1; i<res.length; i++)
-            res[i] = (char)(r.nextInt(10) + '0');
-        return new String(res);
-    }
-
-    // Return the digit representation of s with lsb stored in index 0. s is stored in usual way.
-    public static int[] convert(String s) {
-
-        // Make the real length a perfect power of two.
-        int reallen = 1;
-        while (reallen < s.length()) reallen <<= 1;
-
-        // Just copy non-zero values.
-        int[] res = new int[reallen];
-        for (int i=0; i<s.length(); i++)
-            res[s.length()-1-i] = s.charAt(i) - '0';
-        return res;
-    }
-
-    public static ArrayList<Integer> smooth(int[] num) {
-
-        ArrayList<Integer> res = new ArrayList<Integer>();
-        int left = 0;
-
-        // Just mod by 10 to get digit, carrying over rest.
-        for (int i=0; i<num.length; i++) {
-            left += num[i];
-            res.add(left%10);
-            left /= 10;
+    public void printPoly() {
+        for (int i = 0; i < length; i++){
+            System.out.print(coeff[i] + " ");
         }
+        System.out.println();
+    }
 
-        // Keep on carrying until all leftover is gone.
-        while (left > 0) {
-            res.add(left%10);
-            left /= 10;
+    public StringBuilder buildOutput() {
+        //  Create a String Builder
+        StringBuilder output = new StringBuilder();
+
+        //  Go through the coefficients and add each to the output
+        for (int i = 1; i < length; i++) {
+            output.append(coeff[i] + "\n");
         }
-
-        // Strip 0s.
-        while (res.get(res.size()-1) == 0) res.remove(res.size()-1);
-        return res;
-    }
-
-
-    public static long[] mult(long[] a, long[] b) {
-
-        // Base case - don't wait till 1.
-        if (a.length < 32) {
-            long[] res = new long[a.length+b.length-1];
-            for (int i=0; i<a.length; i++)
-                for (int j=0; j<b.length; j++)
-                    res[i+j] += (a[i]*b[j]);
-            return res;
-        }
-
-        long[] aLow = Arrays.copyOf(a, a.length/2);
-        long[] bLow = Arrays.copyOf(b, b.length/2);
-        long[] aHigh = Arrays.copyOfRange(a, a.length/2, a.length);
-        long[] bHigh = Arrays.copyOfRange(b, b.length/2, b.length);
-
-        // Two recursive cases for "low" half and "high" half of poly.
-        long[] lowRec = mult(aLow, bLow);
-        long[] highRec = mult(aHigh, bHigh);
-
-        // This turns out to be the "middle" part, when we foil.
-        // Notice how we use one recursive call instead of two.
-        long[] aSum = add(aHigh, aLow);
-        long[] bSum = add(bHigh, bLow);
-        long[] midRec = mult(aSum, bSum);
-        subOut(midRec, lowRec, highRec);
-
-        // Put the result back together, shifting each sub-answer as necessary.
-        long[] res = new long[a.length << 1];
-        addIn(res, lowRec, 0);
-        addIn(res, highRec, a.length);
-        addIn(res, midRec, a.length/2);
-        return res;
-    }
-
-    public static void addIn(int[] total, int[] vals, int shift) {
-        for (int i=shift; i<shift+vals.length; i++)
-            total[i] += vals[i-shift];
-    }
-
-    public static int[] add(int[] a, int[] b) {
-        int[] res = new int[Math.max(a.length,b.length)];
-        for (int i=0; i<res.length; i++)
-            res[i] = a[i] + b[i];
-        return res;
-    }
-
-    public static void subOut(int[] a, int[] b, int[] c) {
-        for (int i=0; i<a.length; i++)
-            a[i] -= (b[i] + c[i]);
+        //  return the output
+        return output;
     }
 }
-*/
