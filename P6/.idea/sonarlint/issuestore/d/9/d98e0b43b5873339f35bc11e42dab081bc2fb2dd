@@ -1,0 +1,23 @@
+
+5
+java:S1659"Declare "m" on a separate line.(™ÎşÖ
+=
+java:S1659""Declare "dist" on a separate line.(½ÎÁÂùÿÿÿÿ
+>
+java:S1659"#Declare "lanes" on a separate line.(‚òÂ‡ıÿÿÿÿ
+{
+java:S1450"YRemove the "changeLane" field and declare it as a local variable in the relevant methods.(½ÎÁÂùÿÿÿÿ8Ò·ÀÄ„0
+u
+java:S1450"SRemove the "dist" field and declare it as a local variable in the relevant methods.(½ÎÁÂùÿÿÿÿ8Ò·ÀÄ„0
+v
+java:S1450"TRemove the "lanes" field and declare it as a local variable in the relevant methods.(‚òÂ‡ıÿÿÿÿ8Ò·ÀÄ„0
+m
+java:S1450"PRemove the "m" field and declare it as a local variable in the relevant methods.(™ÎşÖ8Ò·ÀÄ„0
+m
+java:S1450"PRemove the "n" field and declare it as a local variable in the relevant methods.(™ÎşÖ8Ó·ÀÄ„0
+{
+java:S1450"YRemove the "travelTime" field and declare it as a local variable in the relevant methods.(‚òÂ‡ıÿÿÿÿ8Ó·ÀÄ„0
+g	java:S101
+"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(·®Œ­úÿÿÿÿ
+0
+java:S1220""Move this file to a named package.

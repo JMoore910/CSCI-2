@@ -1,0 +1,54 @@
+
+[	java:S112D"FDefine and throw a dedicated exception instead of using a generic one.(¨Ëˆ­
+`	java:S112A"FDefine and throw a dedicated exception instead of using a generic one.(¯¢°ÿÿÿÿÿ
+[	java:S112T"FDefine and throw a dedicated exception instead of using a generic one.(¨Ëˆ­
+[	java:S112Q"FDefine and throw a dedicated exception instead of using a generic one.(äÊñº
+\	java:S112…"FDefine and throw a dedicated exception instead of using a generic one.(¨Ëˆ­
+:
+java:S1659"$Declare "input2" on a separate line.(Ûèş¢
+S	java:S106'"9Replace this use of System.out or System.err by a logger.(˜ÇšŒùÿÿÿÿ
+Z
+java:S1659‰">Declare "b" and all following declarations on a separate line.(•‘ÕÜûÿÿÿÿ
+[
+java:S1659‘"?Declare "bd" and all following declarations on a separate line.(¯ÛÔÜûÿÿÿÿ
+=
+java:S1659·"'Declare "secondStr" on a separate line.(è·¦F
+6
+java:S1659¿"Declare "m" on a separate line.(ÑÍµá
+U
+java:S1659Å">Declare "b" and all following declarations on a separate line.(ÀŸ„â
+[
+java:S1659Ì"?Declare "bd" and all following declarations on a separate line.(ËŸéøÿÿÿÿ
+T	java:S106Ò"9Replace this use of System.out or System.err by a logger.(°ÎÜüÿÿÿÿ
+T	java:S106Ô"9Replace this use of System.out or System.err by a logger.(Ò­¼ñøÿÿÿÿ
+p
+java:S3012ï"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(–„´Œ
+o
+java:S3012¡"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(Ôû½n
+O	java:S106´"9Replace this use of System.out or System.err by a logger.(»°õ×
+[	java:S106¶"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ8³Ùà€0
+j
+java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(âî©
+q
+java:S1192D"[Define a constant instead of duplicating this literal "Polynomials not equal size" 3 times.(¨Ëˆ­
+t
+java:S1488<"^Immediately return this expression instead of assigning it to the temporary variable "result".( ·ç
+v
+java:S1488x"[Immediately return this expression instead of assigning it to the temporary variable "res".(€£“ğøÿÿÿÿ
+z
+java:S1488§"^Immediately return this expression instead of assigning it to the temporary variable "result".(«ò¬øÿÿÿÿ
+w
+java:S1488Ö"[Immediately return this expression instead of assigning it to the temporary variable "res".(…£øœúÿÿÿÿ
+l
+java:S1104"VMake recursions a static final constant or non-public and provide accessors if needed.(¬úŒ 
+F
+java:S1444"0Make this "public static recursions" field final(¬úŒ 
+a	java:S101
+"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(÷ßåf
+b	java:S101Ü"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ë—¿.
+0
+java:S1220""Move this file to a named package.
+Y
+java:S2184Ó"BCast one of the operands of this division operation to a "double".( ®•†
+|
+java:S4165£"`Remove this useless assignment; "md" already holds the assigned value along all execution paths.(­ÛËËüÿÿÿÿ
