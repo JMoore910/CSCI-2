@@ -13,70 +13,137 @@ public class roadrace {
     //  A 2D array travel time on each lane
     private static int n, m;
     private static int[] changeLane, dist;
-    private static int[][] travelTime, lanes;
+    private static int[][] lanes;
+    private static double[][] dp;
 
     public static void main(String[] args) {
 
         //  Call read input
         readInput();
 
+        //  fill array changeLane
+        for (int i = 1; i <= m; i++){
+            changeLane[i] = (i*i)+5;
+        }
 
-        //  application takes in num segments n, and num lanes m
-        //  the next line contains n segment lengths in meters
-        //  the following n lines contains m different average speeds for each lane
+        //  Go through each segment
+        for (int i = 0; i < n; i++){
+            //  If on the first segment, 0, then simply apply the time formula to each lane's speed
+            //  and store the corresponding time in the dp array
 
-        //  Created a 2D array storing all lane speeds
-        //  in first row choose row with highest speed
+            if (i == 0) {
 
+                // Move through each lane and calculate time to travel each
+                for (int j = 1; j <= m; j++) {
+                    dp[i][j] = (dist[i]*3600)/(1.0 * (lanes[i][j] * 1000));
+                }
+            }
+            //  If not looking at the first segment, the program must go through the previous lanes time and find the
+            //  least time adding on the time to change lanes from the current one
+            else {
+                for (int j = 1; j <= m; j++) {
+                    double lowest = Integer.MAX_VALUE;
+                    for (int k = 1; k <= m; k++) {
+                        int change = Math.abs(k-j);
+                        if (change == 0){
+                            //  No lane change, no extra time
+                            lowest = Math.min(lowest, dp[i-1][k] + 5);
+                        }
+                        else {
+                            //  Lane change, so add change time
+                            lowest = Math.min(lowest, dp[i-1][k] + changeLane[change]);
+                        }
+                    }
 
-        //  Initialize dpArray to size of num of lanes
-        //  dp array is a global that stores the change time
+                    //  We now have lowest, assign it to dp[i][j] and add the time it takes to traverse this segment
+                    dp[i][j] = (lowest + ((dist[i]*3600)/(1.0 * (lanes[i][j] * 1000))));
+                }
+            }
+        }
 
-        //  To track the lowest time I will follow the same method of solution as the 0-1 knapsack problem
-        //  A single 1D array holding the shortest time will go through the whole 2d array of lane speeds and determine
-        //  the lowest time
+        double lowest = Double.MAX_VALUE;
+        for (int j = 1; j <= m; j++) {
+            if (lowest > dp[n-1][j]) lowest = dp[n-1][j];
+        }
 
-        //  **********      DP array starts off holding the first three travel times
-        //  *50 50 60*      Store the travel times of each lane in a 2d array so that calculations may only be made once
-        //  *60 50 50*
-        //  *50 60 50*      Looking at every spot, take the lowest time produced by each of the times in the
-        //  *40 30 30*      previous lanes, factoring in the
-        //  **********
-
+        System.out.printf("%.2f ",lowest);
     }
+
+
+    private static void printPath() {
+        int lowestIndex;
+        double lowest;
+        int[] path = new int[n];
+
+        //  Start at the end of dp
+        for (int i = n-1; i >= 0; i--) {
+            lowest = Double.MAX_VALUE;
+            lowestIndex = 0;
+            if (i == n-1) {
+                //  find lowest time in lane
+                for (int j = 1; j <= m; j++) {
+                    if (lowest > dp[i][j]) {
+                        lowestIndex = j;
+                        lowest = dp[i][j];
+                    }
+                }
+            }
+            else {
+                //  find lowest time in lane plus lane change
+                int last = path[i+1];
+                int change;
+                for (int j = 1; j <= m; j++) {
+                    change = Math.abs(j - last);
+                    if (lowest > (dp[i][j] + changeLane[change])) {
+                        lowestIndex = j;
+                        lowest = dp[i][j];
+                    }
+                }
+            }
+
+            //  Set lowest index to path at i
+            path[i] = lowestIndex;
+        }
+
+
+        //  Go through and print the path
+        for (int i = 0; i < n; i++) {
+            System.out.print(path[i] + " ");
+        }
+    }
+
 
 
     private static void readInput() {
 
         //  INPUT:
         Scanner input = new Scanner(System.in);
-        n = input.nextInt();
-        m = input.nextInt();
-        input.nextLine();
 
+        String line = input.nextLine();
+        String[] nums = line.split(" ");
+
+        n = Integer.parseInt(nums[0]);
+        m = Integer.parseInt(nums[1]);
 
         //  Initialize data and dp arrays
         dist = new int[n];
         lanes = new int[n][m+1];
         changeLane = new int[m+1];
-        travelTime = new int[n][m+1];
-
-        //  Fill the two dp arrays with negative vals
-        Arrays.fill(travelTime, -1);
-        Arrays.fill(changeLane, -1);
+        dp = new double[n][m+1];
 
         //  Read in distance array
+        nums = input.nextLine().split(" ");
+
         for (int i = 0; i < n; i++){
-            dist[i] = input.nextInt();
+            dist[i] = Integer.parseInt(nums[i]);
         }
-        input.nextLine();
 
         //  Read in lanes array
         for (int i = 0; i < n; i++){
-            for (int j = 1; j < m; j++) {
-                lanes[i][j] = input.nextInt();
+            nums = input.nextLine().split(" ");
+            for (int j = 1; j <= m; j++) {
+                lanes[i][j] = Integer.parseInt(nums[j-1]);
             }
-            input.nextLine();
         }
     }
 }
