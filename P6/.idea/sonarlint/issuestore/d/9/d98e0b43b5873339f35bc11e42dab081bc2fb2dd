@@ -1,0 +1,15 @@
+
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(Çµí‘
+S	java:S106I"9Replace this use of System.out or System.err by a logger.(ªÓ¼áþÿÿÿÿ
+S	java:S106K"9Replace this use of System.out or System.err by a logger.(ÁäÌŠûÿÿÿÿ
+h
+java:S3776O"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(ÿüÛÚ
+S	java:S106u"9Replace this use of System.out or System.err by a logger.(Ç ¤üþÿÿÿÿ
+N	java:S106|"9Replace this use of System.out or System.err by a logger.(êÊã˜
+Z	java:S106~"9Replace this use of System.out or System.err by a logger.(ªÓ¼áþÿÿÿÿ8Ïð¢Ûˆ0
+G
+java:S1144y",Remove this unused private "printDp" method.(ðîˆ…üÿÿÿÿ
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(·®Œ­úÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
